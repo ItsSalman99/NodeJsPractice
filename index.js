@@ -4,7 +4,7 @@ const UserController = require("./controllers/UserController");
 const app = express();
 const port = 3000;
 
-app.use(express.json());
+app.use(express.json()); //to accept json data from request with the help of express json
 
 mongoose.connect("mongodb://localhost:27017/practice", {
   useNewUrlParser: true,
@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
 // Routes
 app.get("/api/users", UserController.getAllUsers);
 app.post("/api/users/store", UserController.storeNewUser);
+app.get("/api/users/delete", UserController.deleteUser);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

@@ -53,3 +53,37 @@ exports.storeNewUser = async (req, res) => {
     });
   }
 };
+
+exports.deleteUser = async (req, res) => {
+  console.log(req.query.user_id);
+  const userId = req.query.user_id;
+
+  if (!userId) {
+    return res.status(400).json({
+      status: false,
+      message: "user id is required field in the parameters.",
+    });
+  }
+
+  try {
+    const deleteUser = await User.findByIdAndDelete(userId);
+
+    if (!deleteUser) {
+      return res.status(500).json({
+        status: false,
+        message: "User not found, Invalid ID!",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      message: "User Deleted Succesfully",
+      data: deleteUser,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: false,
+      message: err.message,
+    });
+  }
+};
